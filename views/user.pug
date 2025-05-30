@@ -1,0 +1,26 @@
+extends base
+
+block content
+  main.main
+    .user-view
+      nav.user-view__menu
+        .admin-nav
+        h5.admin-nav__heading Manage Users
+        ul.side-nav
+          li
+            a(href='#')
+              svg
+                use(xlink:href='img/icons.svg#icon-users')
+              | Add Users
+
+          li
+            a(href='#')
+              svg
+                use(xlink:href='img/icons.svg#icon-users')
+              | Update Users
+
+          li
+            a(href='#')
+              svg
+                use(xlink:href='img/icons.svg#icon-users')
+              | Delete Users

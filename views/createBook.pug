@@ -1,0 +1,53 @@
+extends base
+
+block content
+  main.main
+    .user-view
+      nav.user-view__menu
+        .admin-nav
+        h5.admin-nav__heading Manage Directory
+        ul.side-nav
+          li--active
+            a(href='/manage-directory/add-book')
+              svg
+                use(xlink:href='public/img/icons.svg#icon-book-open')
+              | Add Book
+
+          li
+            a(href='#')
+              svg
+                use(xlink:href='public/img/icons.svg#icon-book-open')
+              | Update Book
+
+          li
+            a(href='#')
+              svg
+                use(xlink:href='public/img/icons.svg#icon-book-open')
+              | Delete Book
+
+      .book-form
+        h2.heading-secondary.ma-bt-lg Add a Book
+        form.form#createBookForm(method='POST', action='/manage-directory/add-book', enctype='multipart/form-data')
+          .form__group
+            label.form__label(for='name') Book Name
+            input.form__input(type='text', name='name', id='name', required)
+          .form__group
+            label.form__label(for='author') Author
+            input.form__input(type='text', name='author', id='author', required)
+          .form__group
+            label.form__label(for='genre') Genre
+            input.form__input(type='text', name='genre', id='genre', required)
+          .form__group
+            label.form__label(for='description') Description
+            //- input.form__input.description(type='text', name='description', required)
+            textarea.form__input(name='description', id='description', required)
+          .form__group.form__photo-upload
+            label.form__label(for='image') Book-Image
+            input.form__upload(type='file', accept='image/*', name='image', id='image')
+            label(for='image') Upload Photo
+          .form__group.form__photo-upload
+            label.form__label(for='file') Book-File
+            input.form__upload(type='file', accept='pdf/*', name='file', id='file')
+            label(for='file') Upload a File
+          .form__group
+            button.btn.btn--green(type='submit') Add

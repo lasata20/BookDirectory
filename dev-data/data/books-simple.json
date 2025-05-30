@@ -1,0 +1,44 @@
+[
+    {
+        "id": 0,
+        "name": "Atomic Habits",
+        "author": "James Clear",
+        "genre": "Self-Help Book",
+        "description": "The book offers practical strategies for building good habits, breaking bad ones, and ultimately transforming your behavior to achieve your goals."
+    },
+    {
+        "id": 1,
+        "name": "The Lord of the Rings",
+        "author": "J.R.R Tolkein",
+        "genre": "Fiction, Fantasy",
+        "description": "The narrative encompasses themes of friendship, heroism, sacrifice, and the struggle between good and evil."
+    },
+    {
+        "id": 2,
+        "name": "Harry Potter and the Philosopher's Stone",
+        "author": "J.K. Rowling",
+        "genre": "Fiction, Fantasy",
+        "description": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!\nDolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet, consectetur adipisicing elit!"
+    },
+    {
+        "id": 3,
+        "name": "You Can Win",
+        "author": "Shiv Khera",
+        "genre": "Self-Help Book",
+        "description": "The story revolves around Harry's adventures as he navigates the wizarding world, confronts dark forces, and ultimately faces the evil wizard Voldemort, who killed his parents and tried to kill him as a baby."
+    },
+    {
+        "id": 4,
+        "name": "The Girl on the Train",
+        "author": "Paula Hawkins",
+        "genre": "Fiction, Mystery",
+        "description": "The book delves into themes of obsession, memory, and the complexities of human relationships."
+    },
+    {
+        "id": 5,
+        "name": "The Power of Habit",
+        "author": "Charles Duhigg",
+        "genre": "Non-fiction, Self-Help, Psychology",
+        "description": "offers practical strategies for breaking bad habits, forming new ones, and harnessing the power of habits to achieve personal and professional goals. Duhigg provides real-life examples and case studies to demonstrate how individuals, organizations, and communities have successfully applied these principles to create positive change."
+    }
+]

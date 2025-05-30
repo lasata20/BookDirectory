@@ -1,0 +1,25 @@
+extends base
+
+block content
+ 
+    section.section-header
+      .header__hero
+        .header__hero-overlay &nbsp;
+        img.header__hero-img(src=`/img/books/${book.image}`, alt=`${book.name}`)
+
+      .heading-box
+        h1.heading-primary
+          span= book.name
+        .heading-box__group
+          .heading-box__detail
+            svg.heading-box__icon
+              use(xlink:href='/img/icons.svg#icon-bookmark')
+            span.heading-box__text=`By ${book.author}`
+          .heading-box__detail
+            svg.heading-box__icon
+              use(xlink:href='/img/icons.svg#icon-book')
+            span.heading-box__text= `${book.genre}`
+
+      .description-box
+        h2.heading-secondary.ma-bt-lg= `About ${book.name}`
+        p.description__text= `${book.description}` 
