@@ -7,44 +7,59 @@ const AppError = require('../utils/appError');
 const path = require('path');
 
 
+
 // const books = JSON.parse(
 //     fs.readFileSync(`./dev-data/data/books-simple.json`)
 // );
 
 
 const multerStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/img/books');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `book-${Date.now()}.jpg`);
+  destination: (req, file, cb) => {
+    if (file.fieldname === 'image') {
+      cb(null, 'public/img/books');
+    } else if (file.fieldname === 'file') {
+      cb(null, 'public/files/books');
+    } else {
+      cb(new AppError('Unknown field'), false);
     }
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (file.fieldname === 'image') {
+      cb(null, `book-${Date.now()}.jpg`);
+    } else if (file.fieldname === 'file') {
+      cb(null, `book-file-${Date.now()}.pdf`);
+    }
+  }
 });
 
-const multerFilter = (req, files, cb) => {
-//     if (file.mimetype.startsWith('image')) {
-//         cb(null, true)
-//     } else {
-//         cb(new AppError('Not an image! Please upload image', 400), false);
-//     }
-    const ext = path.extname(files.originalname);
-    if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-        return cb(new AppError('Only images allowed'));
+const multerFilter = (req, file, cb) => {
+  if (file.fieldname === 'image') {
+    const allowedImageExts = ['.jpg', '.jpeg', '.png'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!allowedImageExts.includes(ext)) {
+      return cb(new AppError('Only image files are allowed!'), false);
     }
-        cb(null, true);
+  }
 
+  if (file.fieldname === 'file') {
+    if (file.mimetype !== 'application/pdf') {
+      return cb(new AppError('Only PDF files are allowed!'), false);
+    }
+  }
 
-}
+  cb(null, true);
+};
 
-const upload = multer({ 
-    storage: multerStorage,
-    fileFilter: multerFilter
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
 });
 
-exports.uploadPhoto =upload.single('image');
-// exports.uploadFiles =upload.fields([
-//     { name: 'image', }
-// ]);
+exports.uploadBookAssets = upload.fields([
+  { name: 'image', maxCount: 1 },
+  { name: 'file', maxCount: 1 }
+]);
 
 exports.getAllBooks = catchAsync(async (req, res) => {
     const books = await Book.find();
@@ -61,10 +76,6 @@ exports.getAllBooks = catchAsync(async (req, res) => {
 exports.getBookById = catchAsync(async (req, res, next) => {
     const book = await Book.findById(req.params.id);
 
-        // if(!book) {
-        //     return next(new AppError('No Book found', 404))
-        // }
-
     res.status(200).json({
         status: "success",
         data:{
@@ -73,42 +84,66 @@ exports.getBookById = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.createBook =  catchAsync(async (req, res) => {
-    console.log(req.file);
-    const image = req.file.filename;
-    
-    const newBookData = {
-        ...req.body,
-        image
-    };
+exports.createBook = catchAsync(async (req, res, next) => {
+//   console.log('📸 req.files:', req.files);
+//   console.log('📝 req.body:', req.body);
 
-    const newBook = await Book.create(newBookData);
+  if (!req.files || !req.files.image || req.files.image.length === 0) {
+    return next(new AppError('No image uploaded', 400));
+  }
 
-    res.status(201).json({
+  const image = req.files.image[0].filename;
+  const file = req.files.file?.[0]?.filename;
+
+  const newBookData = {
+    ...req.body,
+    image,
+    ...(file && { file })
+  };
+
+  const newBook = await Book.create(newBookData);
+
+    res.status(200).json({
         status: 'success',
         data: {
-            book: newBook
+            newBook
         }
-    });
+    })
 });
 
 exports.updateBook = catchAsync(async (req, res, next) => {
-    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+    const updateFields = {
+      name: req.body.name,
+      author: req.body.author,
+      genre: req.body.genre,
+      description: req.body.description,
+    };
+
+    if (req.files?.image) {
+      updateFields.image = req.files.image[0].filename;
+    }
+
+    if (req.files?.file) {
+      updateFields.file = req.files.file[0].filename;
+    }  
+
+    const book = await Book.findByIdAndUpdate(req.params.id, updateFields, {
         new: true,
         runValidators: true
-    })
+    });
 
     if(!book) {
         return next(new AppError('No Book found', 404))
     }
 
-    res.status(200).json({
-        status: 'success',
-        data: {
-            book
-        }
-    })
+    // res.status(200).json({
+    //     status: 'success',
+    //     data: null
+    // })
+  
+    res.redirect('/overview');
 });
+
 
 exports.deleteBook =  catchAsync(async (req, res, next) => {
     const book = await Book.findByIdAndDelete(req.params.id, req.body);
@@ -117,8 +152,10 @@ exports.deleteBook =  catchAsync(async (req, res, next) => {
         return next(new AppError('No Book found', 404))
     }
 
-    res.status(200).json({
-        status: 'success',
-        data: null
-    }) 
+    // res.status(200).json({
+    //     status: 'success',
+    //     data: null
+    // }) 
+
+    res.redirect('/manage-directory/delete-Book');
 });

@@ -1,0 +1,35 @@
+extends directory
+
+block pageContent
+  .book-form
+    h2.heading-secondary.ma-bt-lg Update a Book
+
+    form.form#editBookForm(method='POST', action=`/api/v1/books/${book._id}?_method=PATCH`, enctype='multipart/form-data', data-book-id=book._id)
+      .form__group
+        label.form__label(for='name') Book Name
+        input.form__input(type='text', name='name', id='name', required, value=book.name)
+
+      .form__group
+        label.form__label(for='author') Author
+        input.form__input(type='text', name='author', id='author', required, value=book.author)
+
+      .form__group
+        label.form__label(for='genre') Genre
+        input.form__input(type='text', name='genre', id='genre', required, value=book.genre)
+
+      .form__group
+        label.form__label(for='description') Description
+        textarea.form__input(name='description', id='description', required)= book.description
+
+      .form__group.form__photo-upload
+        label.form__label(for='image') Book-Image
+        input.form__upload(type='file', accept='image/*', name='image', id='image')
+        label(for='image') Upload Photo
+
+      .form__group.form__photo-upload
+        label.form__label(for='file') Book-File
+        input.form__upload(type='file', accept='pdf/*', name='file', id='file')
+        label(for='file') Upload a File
+
+      .form__group
+        button.btn.btn--green(type='submit') Update

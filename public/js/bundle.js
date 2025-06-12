@@ -5767,7 +5767,7 @@ if (createBookForm) createBookForm.addEventListener('submit', /*#__PURE__*/funct
           if (res.data.status === 'success') {
             (0, _alerts.showAlert)('success', 'Book Added Successfully!');
             window.setTimeout(function () {
-              location.assign('/');
+              location.assign('/overview');
             }, 2000);
           }
           _context3.next = 24;

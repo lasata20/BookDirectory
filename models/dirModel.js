@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 
 const dirSchema = new mongoose.Schema({
@@ -22,7 +23,17 @@ const dirSchema = new mongoose.Schema({
     },
     image: {
         type: String
+    },
+    file: {
+        type: String
     }
+});
+
+dirSchema.pre('save', function(next) {
+  if (!this.slug) {
+    this.slug = slugify(this.name, { lower: true });
+  }
+  next();
 });
 
 dirSchema.index({ slug: 1 });

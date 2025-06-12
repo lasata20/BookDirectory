@@ -73,6 +73,51 @@ exports.createBookForm = (req, res) => {
   })
 };
 
+exports.deleteBook = async (req, res, next) => {
+  try {
+    const books = await Book.find(); // fetch all books from the database
+
+    res.status(200).render('deleteBook', {
+      title: 'Delete a Book',
+      books
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Failed to load delete book page.'
+    });
+  }
+};
+
+
+exports.updateBook = async (req, res, next) => {
+  try {
+    const books = await Book.find(); // fetch all books from the database
+
+    res.status(200).render('updateBook', {
+      title: 'Update a Book',
+      books
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Failed to load update book page.'
+    });
+  }
+};
+
+exports.editBookForm = async (req, res) => {
+  const book = await Book.findOne({ slug: req.params.slug });
+  if (!book) return res.status(404).send('Book not found');
+
+  res.status(200).render('editBook', {
+    title: 'Edit Book',
+    book   
+  });
+};
+
 exports.getManageUsers = (req, res) => {
   res.status(200).render('user', {
     title: 'Add books to directory'

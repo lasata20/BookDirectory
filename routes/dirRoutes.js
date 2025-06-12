@@ -2,31 +2,24 @@ const express = require('express');
 const dirController = require('../controllers/dirController');
 const authController = require('../controllers/authController');
 const viewController = require('../controllers/viewController');
+const multer = require('multer');
 
 const router = express.Router();
 
-// router.param('id', dirController.checkID);
+const upload = multer({ dest: 'public/img/books' }); 
 
 router
     .route('/')
-    .get(viewController.getLoginForm)
+    .post(authController.protect, authController.restrictTo('admin'), dirController.uploadBookAssets, dirController.createBook);
 
 router
-    .route('/login')
-    .post(authController.login);
-
-router
-    .route('/overview')
-    .get(authController.protect, viewController.getOverview);
-
-router
-    .route('/books')
-    .post(authController.protect, authController.restrictTo('admin'), dirController.uploadPhoto, dirController.createBook);
-
-router
-    .route('/books/:id')
+    .route('/:id')
     .get(authController.protect, dirController.getBookById)
-    .patch(dirController.updateBook)
+    .patch(authController.protect, authController.restrictTo('admin'), upload.fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'file', maxCount: 1 }
+    ]),
+     dirController.updateBook)
     .delete(authController.protect, authController.restrictTo('admin'), dirController.deleteBook);
 
 module.exports = router;

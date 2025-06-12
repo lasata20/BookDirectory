@@ -14,6 +14,10 @@ router.get('/books/:slug', authController.isLoggedIn, viewController.getBook);
 router.get('/profile', authController.protect, viewController.getProfile);
 router.get('/manage-directory', authController.protect, authController.restrictTo('admin'), viewController.getManageDirectory);
 router.get('/manage-directory/add-book', authController.protect, authController.restrictTo('admin'), viewController.createBookForm);
+router.get('/manage-directory/delete-book', authController.protect, authController.restrictTo('admin'), viewController.deleteBook);
+router.get('/manage-directory/update-book', authController.protect, authController.restrictTo('admin'), viewController.updateBook);
+router.get('/books/:slug/edit', authController.protect, authController.restrictTo('admin'), viewController.editBookForm);
+
 
 router.get('/manage-users', authController.protect, authController.restrictTo('admin'), viewController.getManageUsers);
 

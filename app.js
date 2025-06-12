@@ -7,6 +7,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const dirRouter = require('./routes/dirRoutes');
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use(methodOverride('_method'));
 
 app.use('/', viewRouter);
 app.use('/api/v1/books', dirRouter);

@@ -1,0 +1,17 @@
+extends directory
+
+block pageContent
+
+    h2.heading-secondary.ma-bt-lg Update a Book
+
+    if books.length
+      each book in books
+        .book-card
+          img.book-card__img(src=`/img/books/${book.image}`, alt='Book Image')
+          .book-card__details
+            h3.book-card__title= book.name
+            p.book-card__author Author: #{book.author}
+
+            a.btn.btn--green(href=`/books/${book.slug}/edit`) Update
+    else
+      p.no-books No books found.

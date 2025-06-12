@@ -227,11 +227,11 @@ body {
   background-color: #fff;
 }
 
-.btn--green {
+.btn--blue {
   background-color: #9855c5;
   color: #fff;
 }
-.btn--green::after {
+.btn--blue::after {
   background-color: #9855c5;
 }
 
@@ -1077,6 +1077,84 @@ div.description-box {
   box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.06);
   padding: 5rem 5rem;
   border-radius: 5px;
+}
+
+.book-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+
+.book-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Book Image */
+.book-card__img {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  margin-right: 1rem;
+  object-fit: cover;
+}
+
+/* Book Details */
+.book-card__details {
+  flex: 1;
+}
+
+.book-card__title {
+  font-size: 3rem;
+  font-weight: 600;
+  color:#444;
+  margin: 0 0 0.5rem;
+}
+
+.book-card__author {
+  font-size: 1rem;
+  margin: 0 0 1rem;
+  color: #666;
+}
+
+/* Delete Button */
+.btn.btn--red {
+  background-color: #e63946;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btn.btn--red:hover {
+  background-color: #c5303b;
+}
+
+/* Update Button */
+.btn.btn--green {
+  background-color: #16a134;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+/* No Books Message */
+.no-books {
+  font-size: 1.1rem;
+  color: #888;
+  margin-top: 2rem;
 }
 
 .form__input {

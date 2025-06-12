@@ -9,6 +9,7 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const createBookForm = document.getElementById('createBookForm');
+const editBookForm = document.getElementById('editBookForm');
 
 
 if (signupForm) 
@@ -82,7 +83,7 @@ if (createBookForm)
       // Send POST request with FormData
       const res = await axios({
         method: 'POST',
-        url: 'http://localhost:3000/api/v1/books',
+        url: '/api/v1/books',
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data', // Don't forget to set the content type
@@ -91,9 +92,10 @@ if (createBookForm)
       
       // Handle response
       if (res.data.status === 'success') {
+        console.log(res);
         showAlert('success', 'Book Added Successfully!');
         window.setTimeout(() => {
-          location.assign('/');
+          location.assign('/overview');
         }, 2000);
       }
     } catch (err) {
@@ -101,3 +103,48 @@ if (createBookForm)
     }
    
   });
+
+
+if (editBookForm) {
+  editBookForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const bookId = editBookForm.dataset.bookId;
+
+    const name = document.getElementById('name').value;
+    const author = document.getElementById('author').value;
+    const genre = document.getElementById('genre').value;
+    const description = document.getElementById('description').value;
+    const imageFile = document.getElementById('image').files[0];
+    const bookFile = document.getElementById('file').files[0];
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('author', author);
+    formData.append('genre', genre);
+    formData.append('description', description);
+    if (imageFile) formData.append('image', imageFile);
+    if (bookFile) formData.append('file', bookFile);
+
+    try {
+      const res = await axios({
+        method: 'PATCH',
+        url: `/api/v1/books/${bookId}`,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+       if (res.data.status === 'success') {
+        console.log(res);
+        showAlert('success', 'Book Updated Successfully!');
+        window.setTimeout(() => {
+          location.assign('/overview');
+        }, 5000);
+      }
+    } catch (err) {
+      showAlert('error', err.response?.data?.message || 'An error occurred');
+    }
+  });
+}
