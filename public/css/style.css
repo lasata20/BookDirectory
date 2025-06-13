@@ -938,6 +938,57 @@ div.description-box {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 7rem;
 }
+/* Large desktops: 3 cards per row */
+@media (min-width: 1024px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 7rem;
+  }
+}
+
+/* Tablets: 2 cards per row */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4rem;
+  }
+}
+
+/* Phones: 1 card per row */
+@media (max-width: 599px) {
+  .card-container {
+    grid-template-columns: 1fr;
+    grid-gap: 3rem;
+    padding: 0 2rem;
+  }
+
+  .card__details {
+    grid-template-columns: 1fr; /* stack text info vertically */
+    padding: 2rem;
+  }
+
+  .card__text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;         /* Number of lines you want to show */
+    line-clamp: 2;                 /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card__footer {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+    padding: 2rem;
+  }
+
+  .card .btn-small,
+  .card .btn {
+    justify-self: center;
+  }
+}
+
 
 .card {
   border-radius: 3px;
@@ -1005,6 +1056,8 @@ div.description-box {
   font-style: italic;
   margin-top: -1rem;
   margin-bottom: 0.75rem;
+  overflow: visible;
+  display: block;
 }
 
 .card__footer {
@@ -1026,6 +1079,7 @@ div.description-box {
   -ms-flex-item-align: center;
   align-self: center;
 }
+
 
 .error {
   position: absolute;
